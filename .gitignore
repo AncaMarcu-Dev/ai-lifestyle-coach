@@ -1,0 +1,52 @@
+# Build artifacts
+bin/
+obj/
+.vs/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# VS Code settings
+.vscode/
+.vscode/*
+
+# Rider IDE
+.idea/
+
+# Logs
+*.log
+
+# OS-generated
+.DS_Store
+Thumbs.db
+
+# EF Core
+**/Migrations/*.Designer.cs
+**/Migrations/*Snapshot.cs
+
+# SQLite database
+*.db
+*.db-shm
+*.db-wal
+
+# Publish output
+wwwroot/dist/
+dist/
+publish/
+out/
+
+# ASP.NET Identity database if used
+appsettings.Development.json
+
+# Blazor
+**/wwwroot/css/bootstrap.min.css
+**/wwwroot/css/site.css.map
+
+# Optional: remove secrets file if not needed in repo
+secrets.json
+
+# Optional: ignore launch settings
+Properties/launchSettings.json
