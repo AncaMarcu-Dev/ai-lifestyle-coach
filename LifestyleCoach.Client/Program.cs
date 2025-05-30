@@ -12,7 +12,6 @@ builder.Services.AddHttpClient("API", client =>
 });
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("API"));
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -26,6 +25,8 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
+
+app.UseRouting();
 app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
