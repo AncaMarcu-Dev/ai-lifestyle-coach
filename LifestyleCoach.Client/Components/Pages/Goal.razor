@@ -1,0 +1,37 @@
+﻿@page "/goal"
+@inject IHttpClientFactory ClientFactory
+
+
+<h3>Your Goals</h3>
+<ul>
+    @foreach (var goal in goals)
+    {
+        <li>@goal.Title - @goal.Description</li>
+    }
+</ul>
+
+@code {
+
+    private HttpClient Http => ClientFactory.CreateClient("API");
+
+    private List<Goals> goals = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            goals = await Http.GetFromJsonAsync<List<Goals>>("goal");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading goals: {ex.Message}");
+        }
+    }
+
+    public class Goals
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+    }
+}

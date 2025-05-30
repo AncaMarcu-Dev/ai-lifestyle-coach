@@ -1,0 +1,42 @@
+﻿
+@page "/journal"
+@inject IHttpClientFactory ClientFactory
+
+<h3>Daily Journal</h3>
+<textarea @bind="entryText" rows="4" cols="50"></textarea>
+<br />
+<button @onclick="SaveEntry">Save Entry</button>
+
+<ul>
+    @foreach (var entry in entries)
+    {
+        <li>@entry.Date.ToShortDateString(): @entry.Text</li>
+    }
+</ul>
+
+@code {
+    private string entryText;
+    private List<JournalEntry> entries = new();
+    private HttpClient Http => ClientFactory.CreateClient("API");
+    private async Task SaveEntry()
+    {
+        var newEntry = new JournalEntry { Text = entryText };
+        await Http.PostAsJsonAsync("journal", newEntry);
+        entryText = string.Empty;
+        await LoadEntries();
+    }
+
+    private async Task LoadEntries()
+    {
+        entries = await Http.GetFromJsonAsync<List<JournalEntry>>("journal");
+    }
+
+    protected override async Task OnInitializedAsync() => await LoadEntries();
+
+    public class JournalEntry
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+        public DateTime Date { get; set; }
+    }
+}

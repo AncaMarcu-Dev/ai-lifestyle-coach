@@ -1,0 +1,29 @@
+﻿// -------------------
+// /Pages/Chat.razor
+// -------------------
+@page "/chat"
+@inject IHttpClientFactory ClientFactory
+
+<h3>AI Coach Chat</h3>
+<input @bind="userInput" placeholder="Ask something..." />
+<button @onclick="SendMessage">Send</button>
+
+<p><strong>Response:</strong> @response</p>
+
+@code {
+    private string userInput;
+    private string response;
+    private HttpClient Http => ClientFactory.CreateClient("API");
+
+    private async Task SendMessage()
+    {
+        var res = await Http.PostAsJsonAsync("chat", new { message = userInput });
+        var result = await res.Content.ReadFromJsonAsync<ChatResponse>();
+        response = result?.Response;
+    }
+
+    private class ChatResponse
+    {
+        public string Response { get; set; }
+    }
+}

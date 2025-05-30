@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using LifestyleCoach.Data; // Adjust based on your namespace
 
 namespace LifestyleCoach.Data
 {
